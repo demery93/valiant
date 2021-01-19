@@ -605,4 +605,4 @@ def model(message):
 
 if __name__ == '__main__':
     #app.run(port=5000)
-    socketio.run(app, log_output=False, debug=False, port=5000)
+    socketio.run(app, log_output=False)
