@@ -55,7 +55,7 @@ class User(db.Model):
         return '<User {}>'.format(self.username)
 
 class Data(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(120), primary_key=True)
     username = db.Column(db.String(80))
     series_id = db.Column(db.String(100))
     date = db.Column(db.Date())
@@ -72,7 +72,7 @@ class Data(db.Model):
         return '<User {}>'.format(self.username)
 
 class Metrics(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(120), primary_key=True)
     username = db.Column(db.String(80))
     series_id = db.Column(db.String(100))
     date = db.Column(db.Date())
@@ -116,7 +116,7 @@ class Stats(db.Model):
         return '<User {}>'.format(self.username)
 
 class Output(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(120), primary_key=True)
     username = db.Column(db.String(80))
     series_id = db.Column(db.String(100))
     date = db.Column(db.Date())
@@ -135,7 +135,7 @@ class Output(db.Model):
         return '<User {}>'.format(self.username)
 
 class StandardOutput(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(120), primary_key=True)
     username = db.Column(db.String(80))
     series_id = db.Column(db.String(100))
     last_total = db.Column(db.Float())
@@ -521,6 +521,8 @@ def main(message):
     conn = engine.raw_connection()
     cur = conn.cursor()
     output = io.StringIO()
+
+    df = df.set_index(df.index.astype(str) + '_' + session['username'])
     df.to_csv(output, sep='\t', header=False, index=True)
     output.seek(0)
     contents = output.getvalue()
